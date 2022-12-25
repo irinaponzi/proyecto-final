@@ -11,5 +11,4 @@ public class RespMessageDto {
 
     private String response;
 
-
 }

@@ -12,5 +12,4 @@ public class RespBookDto {
     private BookDto book;
     private String response;
 
-
 }

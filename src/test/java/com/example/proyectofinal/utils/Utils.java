@@ -27,8 +27,8 @@ public class Utils {
         EditorialDto eDto1 = new EditorialDto(1L, "Minotauro", "Minotauro Ediciones SA", "30-61649666-9", "Barcelona", "Av. Diagonal 662", "34928000", emailDto1, bookDtoList1);
         EditorialDto eDto2 = new EditorialDto(2L, "Ivrea", "Editorial Ivrea S.L", "28-78762236-0", "Buenos Aires", "Presidente Perón 8561", "59971724", emailDto2, bookDtoList2);
 
-        bookDtoList1.add(new BookDto(3L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50));
-        bookDtoList2.add(new BookDto(1L, "Dragon Ball Tomo 2", "Akira Toriyama", 1995, 150));
+        bookDtoList1.add(new BookDto(1L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50));
+        bookDtoList2.add(new BookDto(3L, "Dragon Ball Tomo 2", "Akira Toriyama", 1995, 150));
         bookDtoList2.add(new BookDto(4L, "Neon Genesis Evangelion Tomo 5", "Yoshiyuki Sadamoto", 1994, 200));
 
         editorialDtoList.add(eDto1);
@@ -53,8 +53,8 @@ public class Utils {
         email1.setEditorial(e1);
         email2.setEditorial(e2);
 
-        bookList1.add(new Book(3L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50, e1));
-        bookList2.add(new Book(1L, "Dragon Ball Tomo 2", "Akira Toriyama", 1995, 150, e2));
+        bookList1.add(new Book(1L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50, e1));
+        bookList2.add(new Book(3L, "Dragon Ball Tomo 2", "Akira Toriyama", 1995, 150, e2));
         bookList2.add(new Book(4L, "Neon Genesis Evangelion Tomo 5", "Yoshiyuki Sadamoto", 1994, 200, e2));
 
         editorialList.add(e1);
@@ -76,12 +76,15 @@ public class Utils {
         return editorialDto;
     }
 
+    //Modifica datos Editorial (incluido mail) y del Libro
     public static EditorialDto loadUpdateEditorialDto() {
 
         Set<BookDto> bookDtoList = new HashSet<>();
 
         EmailDto emailDto = new EmailDto(1L, "contacto@minotauro.es");
         EditorialDto editorialDto = new EditorialDto (1L, "Minotauro EDICIONES", "Minotauro Ediciones SA", "30-61649666-9", "Madrid", "Costa 662", "34928000", emailDto, bookDtoList);
+
+        bookDtoList.add(new BookDto(1L, "¿Sueñan los androides...?", "Philip K. Dick", 1968, 30));
 
         return editorialDto;
     }
@@ -90,22 +93,10 @@ public class Utils {
 
         Set<BookDto> bookDtoList = new HashSet<>();
 
-        EmailDto emailDto = new EmailDto(1L, "contacto@minotauro.es");
-        EditorialDto editorialDto = new EditorialDto (1L, "Minotauro EDICIONES", "Minotauro Ediciones SA", "30-61649666-9", "Madrid", "Costa 662", "34928000", emailDto, bookDtoList);
-
-        bookDtoList.add(new BookDto(3L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50));
-
-        return editorialDto;
-    }
-
-    public static EditorialDto loadUpdateEditorialDtoExpected2() {
-
-        Set<BookDto> bookDtoList = new HashSet<>();
-
         EmailDto emailDto = new EmailDto(2L, "argentina@editorialivrea.com");
         EditorialDto editorialDto = new EditorialDto(2L, "Ivrea", "Editorial Ivrea S.L", "28-78762236-0", "Buenos Aires", "Presidente Perón 8561", "59971724", emailDto, bookDtoList);
 
-        bookDtoList.add(new BookDto(1L, "Dragon Ball Tomo 2", "Akira Toriyama", 1995, 150));
+        bookDtoList.add(new BookDto(3L, "Dragon Ball Tomo 2", "Akira Toriyama", 1995, 150));
         bookDtoList.add(new BookDto(4L, "Neon Genesis Evangelion Tomo 5", "Yoshiyuki Sadamoto", 1994, 200));
         bookDtoList.add(new BookDto(2L, "Uzumaki", "Junji Ito", 1999, 140));
 
@@ -123,7 +114,6 @@ public class Utils {
         return booksDto;
     }
 
-    // Para BookServiceTest
     public static List<Book> loadBooks() {
 
         Editorial e1 = new Editorial();
@@ -135,12 +125,10 @@ public class Utils {
     }
 
 
+    // Para EditorialIntegrationTest
+    public static List<EditorialDto> loadExpectedJsonEditorial() {
 
-
-
-    public static List<BookDto> loadExpectedJson() {
-
-        List<BookDto> books = new ArrayList<>();
+        List<EditorialDto> editorials = new ArrayList<>();
         Set<BookDto> bookDtoList1 = new HashSet<>();
         Set<BookDto> bookDtoList2 = new HashSet<>();
 
@@ -150,37 +138,75 @@ public class Utils {
         EditorialDto eDto1 = new EditorialDto(1L, "Minotauro", "Minotauro Ediciones SA", "30-61649666-9", "Barcelona", "Av. Diagonal 662", "34928000", emailDto1, bookDtoList1);
         EditorialDto eDto2 = new EditorialDto(2L, "Ivrea", "Editorial Ivrea S.L", "28-78762236-0", "Buenos Aires", "Presidente Perón 8561", "59971724", emailDto2, bookDtoList2);
 
-        BookDto bookDto1 = new BookDto(1L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50);
-        BookDto bookDto4 = new BookDto(4L, "Neon Genesis Evangelion Tomo 5", "Yoshiyuki Sadamoto", 1994, 200);
-        BookDto bookDto2 = new BookDto(2L, "Black Paradox", "Junji Ito", 2009, 150);
-        BookDto bookDto3 = new BookDto(3L, "Uzumaki", "Junji Ito", 1999, 140);
+        bookDtoList1.add(new BookDto(1L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50));
+        bookDtoList2.add(new BookDto(2L, "Black Paradox", "Junji Ito", 2009, 150));
+        bookDtoList2.add(new BookDto(3L, "Uzumaki", "Junji Ito", 1999, 140));
 
-        bookDtoList1.add(bookDto1);
-        bookDtoList2.add(bookDto2);
-        bookDtoList2.add(bookDto3);
-        bookDtoList2.add(bookDto4);
-        books.add(bookDto1);
-        books.add(bookDto2);
-        books.add(bookDto3);
+        editorials.add(eDto1);
+        editorials.add(eDto2);
+
+        return editorials;
+    }
+
+    public static EditorialDto loadSaveEditorialDtoBadRequest() {
+
+        Set<BookDto> bookDtoList = new HashSet<>();
+
+        EmailDto emailDto = new EmailDto(3L, "info@cajanegraeditora");
+        EditorialDto editorialDto = new EditorialDto (3L, "Caja Negra", "Editora Caja Negra SA", "34-5050699", "Buenos Aires", "Castillo 1486", "45877440", emailDto, bookDtoList);
+
+        bookDtoList.add(new BookDto(5L, "K-Punk Volumen 1", "Mark Fisher", 2019, 20));
+        bookDtoList.add(new BookDto (6L, "K-Punk Volumen 2", "Mark Fisher", 2020, 25));
+
+        return editorialDto;
+    }
+
+    public static BookDto addBookDto() {
+
+        BookDto bookDto = new BookDto(4L, "Neon Genesis Evangelion Tomo 5", "Yoshiyuki Sadamoto", 1994, 200);
+
+        return bookDto;
+    }
+
+    public static EditorialDto loadUpdateEditorialDtoExpected2() {
+
+        Set<BookDto> bookDtoList = new HashSet<>();
+
+        EmailDto emailDto = new EmailDto(2L, "argentina@editorialivrea.com");
+        EditorialDto editorialDto = new EditorialDto(2L, "Ivrea", "Editorial Ivrea S.L", "28-78762236-0", "Buenos Aires", "Presidente Perón 8561", "59971724", emailDto, bookDtoList);
+
+        bookDtoList.add(new BookDto(2L, "Black Paradox", "Junji Ito", 2009, 150));
+        bookDtoList.add(new BookDto(3L, "Uzumaki", "Junji Ito", 1999, 140));
+        bookDtoList.add(new BookDto(4L, "Neon Genesis Evangelion Tomo 5", "Yoshiyuki Sadamoto", 1994, 200));
+
+        return editorialDto;
+    }
+
+
+    // Para BookIntegrationTest
+    public static List<BookDto> loadExpectedJson() {
+
+        List<BookDto> books = new ArrayList<>();
+
+        books.add(new BookDto(1L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50));
+        books.add(new BookDto(2L, "Black Paradox", "Junji Ito", 2009, 150));
+        books.add(new BookDto(3L, "Uzumaki", "Junji Ito", 1999, 140));
 
         return books;
-
     }
 
-    public static BookDto loadUpdateBook() {
+    public static BookDto loadUpdateBookDto() {
 
-        BookDto bookDto1 = new BookDto(1L, "¿Sueñan los androides con ovejas eléctricas? - Nueva Edición", "Philip K. Dick", 1968, 320);
+        BookDto bookDto = new BookDto(1L, "¿Sueñan los androides con ovejas eléctricas? - Nueva Edición", "Philip K. Dick", 1968, 320);
 
-        return bookDto1;
-
+        return bookDto;
     }
 
-    public static BookDto loadUpdateBookBadRequest() {
+    public static BookDto loadUpdateBookDtoBadRequest() {
 
-        BookDto bookDto1 = new BookDto(1L, "a", "a", 4968, -1);
+        BookDto bookDto = new BookDto(1L, "a", "Philip K. Dick", 1968, -1);
 
-        return bookDto1;
-
+        return bookDto;
     }
 
 }

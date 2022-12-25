@@ -41,8 +41,8 @@ public class BookController {
         return new ResponseEntity<>(bookService.findBookByAuthor(author), HttpStatus.OK);
     }
 
-    @PutMapping("/updateBook/{id}")
-    public ResponseEntity<RespBookDto> updateBookStockById(@PathVariable Long id, @Valid @RequestBody BookDto bookDto) {
+    @PutMapping("/updateBookById/{id}")
+    public ResponseEntity<RespBookDto> updateBookById(@PathVariable Long id, @Valid @RequestBody BookDto bookDto) {
         return new ResponseEntity<>(bookService.updateBookById(id, bookDto), HttpStatus.OK);
     }
 

@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {"SCOPE = integration_test"})
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookIntegrationTest {
 
     @Autowired
@@ -47,7 +47,7 @@ public class BookIntegrationTest {
     @Test
     @Order(1)
     @DisplayName("Test getAllBooks OK")
-    public void testGetAllBooksOK() throws Exception {
+    public void findAllBooksTestOK() throws Exception {
 
         List<BookDto> bookDtoList = Utils.loadExpectedJson();
         String expectedJson = writer.writeValueAsString(bookDtoList);
@@ -64,7 +64,7 @@ public class BookIntegrationTest {
     @Test
     @Order(2)
     @DisplayName("Test findBookById OK")
-    public void testFindBookByIdOK() throws Exception {
+    public void findBookByIdTestOK() throws Exception {
 
         Long id = 1L;
         BookDto bookDto = Utils.loadExpectedJson().get(0);
@@ -82,7 +82,7 @@ public class BookIntegrationTest {
     @Test
     @Order(3)
     @DisplayName("Test findBookById NOT OK")
-    public void testFindBookByIdNotOK() throws Exception {
+    public void findBookByIdTestNotOK() throws Exception {
 
         Long id = 6L;
         ErrorDto errorDto = new ErrorDto(404, "El libro solicitado no fue encontrado");
@@ -100,7 +100,7 @@ public class BookIntegrationTest {
     @Test
     @Order(4)
     @DisplayName("Test findBooksByName OK")
-    public void testFindBooksByNameOK() throws Exception {
+    public void findBooksByNameTestOK() throws Exception {
 
         List<BookDto> bookDtoList = Utils.loadExpectedJson();
         String expectedJson = writer.writeValueAsString(bookDtoList);
@@ -117,7 +117,7 @@ public class BookIntegrationTest {
     @Test
     @Order(5)
     @DisplayName("Test findBookByAuthor OK")
-    public void findBookByAuthorOK() throws Exception {
+    public void findBookByAuthorTestOK() throws Exception {
 
         String author = "Junji Ito";
         List<BookDto> bookDtoList = new ArrayList<>();
@@ -140,16 +140,16 @@ public class BookIntegrationTest {
     @Test
     @Order(6)
     @DisplayName("Test updateBookById OK")
-    public void testUpdateBookByIdOK() throws Exception {
+    public void updateBookByIdTestOK() throws Exception {
 
         Long id = 1L;
-        BookDto payload = Utils.loadUpdateBook();
-        RespBookDto respBookDto = new RespBookDto(Utils.loadUpdateBook(), "El libro se actualizó exitosamente");
+        BookDto payload = Utils.loadUpdateBookDto();
+        RespBookDto respBookDto = new RespBookDto(payload, "El libro se actualizó exitosamente");
 
         String payloadJson = writer.writeValueAsString(payload);
         String expectedJson = writer.writeValueAsString(respBookDto);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/updateBook/{id}", id)
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/updateBookById/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(payloadJson))
                 .andDo(print())
@@ -160,40 +160,44 @@ public class BookIntegrationTest {
                 );
     }
 
-    /*@Test
+    @Test
     @Order(7)
     @DisplayName("Test updateBookById NOT OK Bad Request")
-    public void testUpdateBookByIdNotOK() throws Exception {
+    public void updateBookByIdTestNotOK() throws Exception {
 
         Long id = 1L;
-        String status =
-        BookDto payload = Utils.loadUpdateBookBadRequest();
-        RespBookDto respBookDto = new RespBookDto(Utils.loadUpdateBook(), "El libro se actualizó exitosamente");
+        BookDto payload = Utils.loadUpdateBookDtoBadRequest();
+
+        List<ErrorDto> errorDtoList = new ArrayList<>();
+        ErrorDto errorDto1 = new ErrorDto(400, "El stock debe ser igual o superior a cero");
+        ErrorDto errorDto2 = new ErrorDto(400, "El título debe poseer entre 2 y 120 caracteres");
+        errorDtoList.add(errorDto1);
+        errorDtoList.add(errorDto2);
 
         String payloadJson = writer.writeValueAsString(payload);
-        String expectedJson = writer.writeValueAsString(respBookDto);
+        String expectedJson = writer.writeValueAsString(errorDtoList);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/updateBook/{id}", id)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(payloadJson))
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/updateBookById/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(payloadJson))
                 .andDo(print())
                 .andExpectAll(
-                        status().isOk(),
+                        status().isBadRequest(),
                         content().contentType("application/json"),
                         content().json(expectedJson)
                 );
-    }*/
+    }
 
     @Test
     @Order(8)
     @DisplayName("Test deleteBookById OK")
-    public void testDeleteBookByIdOK() throws Exception {
+    public void deleteBookByIdTestOK() throws Exception {
 
         Long id = 3L;
         RespMessageDto respMessageDto = new RespMessageDto("El libro se eliminó exitosamente");
         String expectedJson = writer.writeValueAsString(respMessageDto);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.delete("/deleteBook/{id}", id))
+        this.mockMvc.perform(MockMvcRequestBuilders.delete("/deleteBookById/{id}", id))
                 .andDo(print())
                 .andExpectAll(
                         status().isOk(),
@@ -201,30 +205,4 @@ public class BookIntegrationTest {
                         content().json(expectedJson)
                 );
     }
-
-
-
-
-      /*@Test
-         public void testPostRespuestaCompletaOK() throws Exception {
-
-        HolaDtoParaTest payload = new HolaDtoParaTest("Adios Jose");
-        HolaDtoParaTest responseDto = new HolaDtoParaTest("Adios Jose tkm nv en Narnia");
-
-        String payloadJson = writer.writeValueAsString(payload);
-        String responseJson = writer.writeValueAsString(responseDto);
-
-        MvcResult response = this.mockMvc.perform(MockMvcRequestBuilders.post("/CrearSaludo")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(payloadJson))
-                .andDo(print())
-                .andReturn();
-
-        assertEquals(responseJson, response.getResponse().getContentAsString());
-        assertEquals(200, response.getResponse().getStatus());
-        assertEquals("application/json", response.getResponse().getContentType());
-    }
-    */
-
-
 }

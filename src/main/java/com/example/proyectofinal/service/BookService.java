@@ -77,16 +77,15 @@ public class BookService implements IBookService {
         Optional<Book> book = bookRepository.findById(id);
         if(book.isPresent()) {
             Book bExist = book.get();
+            Book bookUpdated = (mapper.map(bookDto, Book.class));
 
-            bExist.setTitle(bookDto.getTitle());
-            bExist.setAuthor(bookDto.getAuthor());
-            bExist.setPublicationDate(bookDto.getPublicationDate());
-            bExist.setStock(bookDto.getStock());
+            bookUpdated.setId(bExist.getId());
+            bookUpdated.setEditorial(bExist.getEditorial());
 
-            bookRepository.save(bExist);
+            bookRepository.save(bookUpdated);
 
             RespBookDto response = new RespBookDto();
-            response.setBook(mapper.map(bExist, BookDto.class));
+            response.setBook(mapper.map(bookUpdated, BookDto.class));
             response.setResponse("El libro se actualizó exitosamente");
 
             return response;

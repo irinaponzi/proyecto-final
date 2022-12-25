@@ -13,5 +13,4 @@ public class RespEditorialDto {
     private EditorialDto editorial;
     private String response;
 
-
 }

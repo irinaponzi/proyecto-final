@@ -68,27 +68,25 @@ public class EditorialService implements IEditorialService {
     }
 
     @Override
-    public RespEditorialDto updateDataEditorialById(Long id, EditorialDto eDto) {
+    public RespEditorialDto updateEditorialById(Long id, EditorialDto editorialDto) {
 
         Optional<Editorial> editorial = editorialRepository.findById(id);
         if(editorial.isPresent()) {
             Editorial eExist = editorial.get();
-
-            eExist.setName(eDto.getName());
-            eExist.setBusinessName(eDto.getBusinessName());
-            eExist.setCuit(eDto.getCuit());
-            eExist.setCity(eDto.getCity());
-            eExist.setAddress(eDto.getAddress());
-            eExist.setTelephone(eDto.getTelephone());
+            Editorial editorialUpdated = (mapper.map(editorialDto, Editorial.class));
 
             Email emailExist = eExist.getEmail();
-            emailExist.setDescription(eDto.getEmail().getDescription());
-            eExist.setEmail(emailExist);
+            emailExist.setDescription(editorialUpdated.getEmail().getDescription());
+            editorialUpdated.setEmail(emailExist);
 
-            editorialRepository.save(eExist);
+            editorialUpdated.setId(eExist.getId());
+            //eExist.getBooks().forEach(b -> editorialUpdated.getBooks().add(b));
+            editorialUpdated.getBooks().forEach(b -> b.setEditorial(editorialUpdated));
+
+            editorialRepository.save(editorialUpdated);
 
             RespEditorialDto response = new RespEditorialDto();
-            response.setEditorial(mapper.map(eExist, EditorialDto.class));
+            response.setEditorial(mapper.map(editorialUpdated, EditorialDto.class));
             response.setResponse("La editorial se actualizó exitosamente");
 
             return response;
@@ -98,7 +96,7 @@ public class EditorialService implements IEditorialService {
     }
 
     @Override
-    public RespEditorialDto addEditorialBookByEditorialId(Long id, BookDto bookDto) {
+    public RespEditorialDto addBookByEditorialId(Long id, BookDto bookDto) {
 
         Optional<Editorial> editorial = editorialRepository.findById(id);
         if(editorial.isPresent()) {
