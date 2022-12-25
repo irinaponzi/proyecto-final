@@ -4,7 +4,6 @@ import com.example.proyectofinal.dto.BookDto;
 import com.example.proyectofinal.dto.RespBookDto;
 import com.example.proyectofinal.dto.RespMessageDto;
 import com.example.proyectofinal.entity.Book;
-import com.example.proyectofinal.entity.Editorial;
 import com.example.proyectofinal.exceptions.NotFoundException;
 import com.example.proyectofinal.repository.BookRepository;
 import com.example.proyectofinal.service.BookService;
@@ -61,9 +60,8 @@ public class BookServiceTest {
     void findBookByIdTestOK() {
 
         Long id = 1L;
-        Editorial e1 = new Editorial();
-        Book bookReturn = new Book(1L, "Black Paradox", "Junji Ito",  2009, 150, e1);
-        BookDto bookExpected = new BookDto(1L, "Black Paradox", "Junji Ito",  2009, 150);
+        Book bookReturn = Utils.loadBooks().get(0);
+        BookDto bookExpected = Utils.loadBooksDto().get(0);
 
         when(bookRepository.findById(id)).thenReturn(Optional.of(bookReturn));
         BookDto bookActual = bookService.findBookById(id);
@@ -146,10 +144,9 @@ public class BookServiceTest {
     void updateBookByIdTestOK() {
 
         Long id = 2L;
-        Editorial e2 = new Editorial();
-        BookDto bookDto = new BookDto(2L,"Black Paradox", "Junji Ito",  2009, 80);
+        BookDto bookDto = new BookDto(2L,"Uzumaki - Nueva Edición", "Junji Ito",  2022, 150);
 
-        Book bookReturn = new Book(2L, "K-Punk Volumen 1", "Mark Fisher", 2019, 50, e2);
+        Book bookReturn = Utils.loadBooks().get(1);
         RespBookDto respExpected = new RespBookDto(bookDto, "El libro se actualizó exitosamente");
 
         when(bookRepository.findById(id)).thenReturn(Optional.of(bookReturn));
@@ -164,7 +161,7 @@ public class BookServiceTest {
     void updateBookByIdTestNotOK() {
 
         Long id = 2L;
-        BookDto bookDto = new BookDto(2L,"Black Paradox", "Junji Ito",  2009, 80);
+        BookDto bookDto = new BookDto(2L,"Uzumaki - Nueva Edición", "Junji Ito",  2022, 150);
 
         Optional<Book> bookReturn = Optional.empty();
         NotFoundException exExpected = new NotFoundException("El libro solicitado no fue encontrado");
@@ -183,9 +180,7 @@ public class BookServiceTest {
     void deleteBookByIdTestOK() {
 
         Long id = 2L;
-        Editorial e2 = new Editorial();
-
-        Book bookReturn = new Book(2L, "K-Punk Volumen 1", "Mark Fisher", 2019, 50, e2);
+        Book bookReturn = Utils.loadBooks().get(1);
         RespMessageDto respExpected = new RespMessageDto("El libro se eliminó exitosamente");
 
         when(bookRepository.findById(id)).thenReturn(Optional.of(bookReturn));
@@ -197,7 +192,7 @@ public class BookServiceTest {
     @Test
     @Order(10)
     @DisplayName("Test eliminar libro por Id NOT OK")
-    void deleteBookByIdNotOK() {
+    void deleteBookByIdTestNotOK() {
 
         Long id = 2L;
         Optional<Book> bookReturn = Optional.empty();

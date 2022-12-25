@@ -35,5 +35,4 @@ public class EditorialDto {
     @Valid
     private Set<BookDto> books;
 
-
 }

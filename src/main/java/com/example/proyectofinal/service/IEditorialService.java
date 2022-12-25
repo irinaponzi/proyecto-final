@@ -13,7 +13,7 @@ public interface IEditorialService {
     EditorialDto findEditorialByName(String name);
     RespEditorialDto saveEditorial(EditorialDto editorialDto);
     RespEditorialDto updateDataEditorialById(Long id, EditorialDto editorialDto);
-    RespEditorialDto addEditorialBooksByEditorialId(Long id, BookDto bookDto);
+    RespEditorialDto addEditorialBookByEditorialId(Long id, BookDto bookDto);
     RespMessageDto deleteEditorialById(Long id);
     RespMessageDto getEditorialStockByEditorialName(String name);
 

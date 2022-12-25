@@ -42,9 +42,9 @@ public class EditorialController {
         return new ResponseEntity<>(editorialService.updateDataEditorialById(id, editorialDto), HttpStatus.OK);
     }
 
-    @PutMapping("/addEditorialBooksByEditorialId/{id}")
-    public ResponseEntity<RespEditorialDto> addEditorialBooksByEditorialId(@PathVariable Long id, @Valid @RequestBody BookDto bookDto)  {
-        return new ResponseEntity<>(editorialService.addEditorialBooksByEditorialId(id, bookDto), HttpStatus.OK);
+    @PutMapping("/addEditorialBookByEditorialId/{id}")
+    public ResponseEntity<RespEditorialDto> addEditorialBookByEditorialId(@PathVariable Long id, @Valid @RequestBody BookDto bookDto)  {
+        return new ResponseEntity<>(editorialService.addEditorialBookByEditorialId(id, bookDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteEditorialById/{id}")

@@ -26,5 +26,4 @@ public class BookDto {
     @PositiveOrZero(message = "El stock debe ser igual o superior a cero")
     private Integer stock;
 
-
 }

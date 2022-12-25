@@ -77,6 +77,7 @@ public class EditorialService implements IEditorialService {
             eExist.setName(eDto.getName());
             eExist.setBusinessName(eDto.getBusinessName());
             eExist.setCuit(eDto.getCuit());
+            eExist.setCity(eDto.getCity());
             eExist.setAddress(eDto.getAddress());
             eExist.setTelephone(eDto.getTelephone());
 
@@ -84,10 +85,10 @@ public class EditorialService implements IEditorialService {
             emailExist.setDescription(eDto.getEmail().getDescription());
             eExist.setEmail(emailExist);
 
-            Editorial persistEditorial = editorialRepository.save(eExist);
+            editorialRepository.save(eExist);
 
             RespEditorialDto response = new RespEditorialDto();
-            response.setEditorial(mapper.map(persistEditorial, EditorialDto.class));
+            response.setEditorial(mapper.map(eExist, EditorialDto.class));
             response.setResponse("La editorial se actualizó exitosamente");
 
             return response;
@@ -97,7 +98,7 @@ public class EditorialService implements IEditorialService {
     }
 
     @Override
-    public RespEditorialDto addEditorialBooksByEditorialId(Long id, BookDto bookDto) {
+    public RespEditorialDto addEditorialBookByEditorialId(Long id, BookDto bookDto) {
 
         Optional<Editorial> editorial = editorialRepository.findById(id);
         if(editorial.isPresent()) {
@@ -107,10 +108,10 @@ public class EditorialService implements IEditorialService {
             book.setEditorial(eExist);
 
             eExist.getBooks().add(book);
-            Editorial persistEditorial = editorialRepository.save(eExist);
+            editorialRepository.save(eExist);
 
             RespEditorialDto response = new RespEditorialDto();
-            response.setEditorial(mapper.map(persistEditorial, EditorialDto.class));
+            response.setEditorial(mapper.map(eExist, EditorialDto.class));
             response.setResponse("El libro se añadió exitosamente");
 
             return response;
