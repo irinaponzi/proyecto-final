@@ -128,7 +128,7 @@ public class BookServiceTest {
 
         String author = "Junji Ito";
         List<Book> bookReturn = new ArrayList<>();
-        NotFoundException exExpected = new NotFoundException("No fue encontrado ningún libro que coincida con la búsqueda");
+        NotFoundException exExpected = new NotFoundException("No hay ningún libro que coincida con la búsqueda");
 
         NotFoundException exActual = assertThrows(NotFoundException.class, () -> {
             when(bookRepository.findBookByAuthorContainingIgnoreCase(author)).thenReturn(bookReturn);
