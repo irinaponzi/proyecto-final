@@ -19,8 +19,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -80,30 +78,30 @@ public class EditorialIntegrationTest {
 
     @Test
     @Order(3)
-    @DisplayName("Test saveEditorial OK")
+    @DisplayName("Test guardar editorial OK")
     public void saveEditorialTestOK() throws Exception {
 
-       EditorialDto payload = Utils.loadNewEditorialDto();
-       RespEditorialDto respEditorialDto = new RespEditorialDto(payload, "La editorial se guardó exitosamente");
+        EditorialDto payload = Utils.loadNewEditorialDto();
+        RespEditorialDto respEditorialDto = new RespEditorialDto(payload, "La editorial se guardó exitosamente");
 
-       String payloadJson = writer.writeValueAsString(payload);
-       String expectedJson = writer.writeValueAsString(respEditorialDto);
+        String payloadJson = writer.writeValueAsString(payload);
+        String expectedJson = writer.writeValueAsString(respEditorialDto);
 
-       this.mockMvc.perform(MockMvcRequestBuilders.post("/saveEditorial")
-               .contentType(MediaType.APPLICATION_JSON)
-               .content(payloadJson))
-               .andDo(print())
-               .andExpectAll(
-                       status().isOk(),
-                       content().contentType("application/json"),
-                       content().json(expectedJson)
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/saveEditorial")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(payloadJson))
+                .andDo(print())
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType("application/json"),
+                        content().json(expectedJson)
                );
     }
 
     @Test
     @Order(4)
-    @DisplayName("Test saveEditorial NOT OK")
-    public void saveEditorialTestNotOK() throws Exception {
+    @DisplayName("Test guardar editorial NOT OK")
+    public void saveEditorialNotOK() throws Exception {
 
         EditorialDto payload = Utils.loadSaveEditorialDtoBadRequest();
         List<ErrorDto> errorDtoList = new ArrayList<>();
@@ -128,19 +126,19 @@ public class EditorialIntegrationTest {
 
     @Test
     @Order(5)
-    @DisplayName("Test updateEditorialById OK")
-    public void updateEditorialByIdTestOK() throws Exception {
+    @DisplayName("Test updateEditorialDataById OK")
+    public void updateEditorialDataByIdTestOK() throws Exception {
 
         Long id = 1L;
         EditorialDto payload = Utils.loadUpdateEditorialDto();
-        EditorialDto editorialDtoExpected = Utils.loadUpdateEditorialDto();
+        EditorialDto editorialDtoExpected = Utils.loadUpdateEditorialDtoExpected3();
 
         RespEditorialDto respEditorialDto = new RespEditorialDto(editorialDtoExpected, "La editorial se actualizó exitosamente");
 
         String payloadJson = writer.writeValueAsString(payload);
         String expectedJson = writer.writeValueAsString(respEditorialDto);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.put("/updateEditorialById/{id}", id)
+        this.mockMvc.perform(MockMvcRequestBuilders.put("/updateEditorialDataById/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(payloadJson))
                 .andDo(print())

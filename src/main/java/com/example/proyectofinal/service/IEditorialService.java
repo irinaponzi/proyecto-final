@@ -12,7 +12,7 @@ public interface IEditorialService {
     List<EditorialDto> findAllEditorials();
     EditorialDto findEditorialByName(String name);
     RespEditorialDto saveEditorial(EditorialDto editorialDto);
-    RespEditorialDto updateEditorialById(Long id, EditorialDto editorialDto);
+    RespEditorialDto updateEditorialDataById(Long id, EditorialDto editorialDto);
     RespEditorialDto addBookByEditorialId(Long id, BookDto bookDto);
     RespMessageDto deleteEditorialById(Long id);
     RespMessageDto getEditorialStockByEditorialName(String name);

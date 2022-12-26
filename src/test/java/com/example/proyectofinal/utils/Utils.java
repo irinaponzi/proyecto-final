@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class Utils {
 
-    // Para EditorialServiceTest
+
     public static List<EditorialDto> loadEditorialsDto() {
 
         List<EditorialDto> editorialDtoList = new ArrayList<>();
@@ -76,7 +76,6 @@ public class Utils {
         return editorialDto;
     }
 
-    //Modifica datos Editorial (incluido mail) y del Libro
     public static EditorialDto loadUpdateEditorialDto() {
 
         Set<BookDto> bookDtoList = new HashSet<>();
@@ -84,7 +83,17 @@ public class Utils {
         EmailDto emailDto = new EmailDto(1L, "contacto@minotauro.es");
         EditorialDto editorialDto = new EditorialDto (1L, "Minotauro EDICIONES", "Minotauro Ediciones SA", "30-61649666-9", "Madrid", "Costa 662", "34928000", emailDto, bookDtoList);
 
-        bookDtoList.add(new BookDto(1L, "¿Sueñan los androides...?", "Philip K. Dick", 1968, 30));
+        return editorialDto;
+    }
+
+    public static EditorialDto loadUpdateEditorialDtoExpected3() {
+
+        Set<BookDto> bookDtoList = new HashSet<>();
+
+        EmailDto emailDto = new EmailDto(1L, "contacto@minotauro.es");
+        EditorialDto editorialDto = new EditorialDto (1L, "Minotauro EDICIONES", "Minotauro Ediciones SA", "30-61649666-9", "Madrid", "Costa 662", "34928000", emailDto, bookDtoList);
+
+        bookDtoList.add(new BookDto(1L, "¿Sueñan los androides con ovejas eléctricas?", "Philip K. Dick", 1968, 50));
 
         return editorialDto;
     }
@@ -103,8 +112,6 @@ public class Utils {
         return editorialDto;
     }
 
-
-    // Para BookServiceTest
     public static List<BookDto> loadBooksDto() {
 
         List<BookDto> booksDto = new ArrayList<>();
@@ -124,8 +131,6 @@ public class Utils {
         return books;
     }
 
-
-    // Para EditorialIntegrationTest
     public static List<EditorialDto> loadExpectedJsonEditorial() {
 
         List<EditorialDto> editorials = new ArrayList<>();
@@ -182,8 +187,6 @@ public class Utils {
         return editorialDto;
     }
 
-
-    // Para BookIntegrationTest
     public static List<BookDto> loadExpectedJson() {
 
         List<BookDto> books = new ArrayList<>();

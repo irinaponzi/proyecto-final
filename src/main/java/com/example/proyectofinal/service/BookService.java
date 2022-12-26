@@ -23,6 +23,7 @@ public class BookService implements IBookService {
     ModelMapper mapper = new ModelMapper();
 
 
+    //Retorna una lista con todos los libros
     @Override
     public List<BookDto> findAllBooks() {
 
@@ -33,6 +34,7 @@ public class BookService implements IBookService {
         return bookDtoList;
     }
 
+    //Busca un libro por su Id
     @Override
     public BookDto findBookById(Long id) {
 
@@ -47,6 +49,7 @@ public class BookService implements IBookService {
         throw new NotFoundException("El libro solicitado no fue encontrado");
     }
 
+    //Retorna una lista con todos los libros ordenados alfabéticamente por el título
     @Override
     public List<BookDto> findBookByOrderByTitleAsc() {
 
@@ -57,6 +60,7 @@ public class BookService implements IBookService {
         return bookDtoList;
     }
 
+    //Busca libros por su autor
     @Override
     public List<BookDto> findBookByAuthor(String author) {
 
@@ -68,9 +72,10 @@ public class BookService implements IBookService {
             return bookDtoList;
         }
 
-        throw new NotFoundException("No fue encontrado ningún libro que coincida con la búsqueda");
+        throw new NotFoundException("No hay ningún libro que coincida con la búsqueda");
     }
 
+    //Actualiza los datos de un libro, indicado por su Id
     @Override
     public RespBookDto updateBookById(Long id, BookDto bookDto) {
 
@@ -94,6 +99,7 @@ public class BookService implements IBookService {
         throw new NotFoundException("El libro solicitado no fue encontrado");
     }
 
+    //Elimina un libro por su Id
     @Override
     public RespMessageDto deleteBookById(Long id) {
 

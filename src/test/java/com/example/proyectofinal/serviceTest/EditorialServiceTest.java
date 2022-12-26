@@ -97,25 +97,26 @@ public class EditorialServiceTest {
 
     @Test
     @Order(5)
-    @DisplayName("Test actualizar editorial por Id OK")
-    void updateEditorialByIdTestOK() {
+    @DisplayName("Test actualizar datos de la editorial por Id OK")
+    void updateEditorialDataByIdTestOK() {
 
         Long id = 1L;
         EditorialDto editorialDto = Utils.loadUpdateEditorialDto();
+        EditorialDto editorialDtoExpected = Utils.loadUpdateEditorialDtoExpected3();
 
         Editorial editorialReturn = Utils.loadEditorials().get(0);
-        RespEditorialDto respExpected = new RespEditorialDto(editorialDto, "La editorial se actualizó exitosamente");
+        RespEditorialDto respExpected = new RespEditorialDto(editorialDtoExpected, "La editorial se actualizó exitosamente");
 
         when(editorialRepository.findById(id)).thenReturn(Optional.ofNullable(editorialReturn));
-        RespEditorialDto respActual = editorialService.updateEditorialById(id, editorialDto);
+        RespEditorialDto respActual = editorialService.updateEditorialDataById(id, editorialDto);
 
         assertEquals(respExpected, respActual);
     }
 
     @Test
     @Order(6)
-    @DisplayName("Test actualizar editorial por Id NOT OK")
-    void updateEditorialByIdTestNotOK() {
+    @DisplayName("Test actualizar datos de la editorial por Id NOT OK")
+    void updateEditorialDataByIdNotOK() {
 
         Long id = 1L;
         EditorialDto editorialDto = Utils.loadUpdateEditorialDto();
@@ -125,7 +126,7 @@ public class EditorialServiceTest {
 
         NotFoundException exActual = assertThrows(NotFoundException.class, () -> {
             when(editorialRepository.findById(id)).thenReturn(editorialReturn);
-            editorialService.updateEditorialById(id, editorialDto);
+            editorialService.updateEditorialDataById(id, editorialDto);
         });
 
         assertEquals(exExpected.getMessage(), exActual.getMessage());

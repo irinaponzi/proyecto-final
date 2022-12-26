@@ -37,9 +37,9 @@ public class EditorialController {
         return new ResponseEntity<>(editorialService.saveEditorial(editorial), HttpStatus.OK);
     }
 
-    @PutMapping("/updateEditorialById/{id}")
-    public ResponseEntity<RespEditorialDto> updateEditorialById(@PathVariable Long id, @Valid @RequestBody EditorialDto editorialDto) {
-        return new ResponseEntity<>(editorialService.updateEditorialById(id, editorialDto), HttpStatus.OK);
+    @PutMapping("/updateEditorialDataById/{id}")
+    public ResponseEntity<RespEditorialDto> updateEditorialDataById(@PathVariable Long id, @Valid @RequestBody EditorialDto editorialDto) {
+        return new ResponseEntity<>(editorialService.updateEditorialDataById(id, editorialDto), HttpStatus.OK);
     }
 
     @PutMapping("/addBookByEditorialId/{id}")

@@ -25,6 +25,7 @@ public class EditorialService implements IEditorialService {
     ModelMapper mapper = new ModelMapper();
 
 
+    //Retorna una lista con todas las editoriales
     @Override
     public List<EditorialDto> findAllEditorials() {
 
@@ -35,6 +36,7 @@ public class EditorialService implements IEditorialService {
         return editorialDtoList;
     }
 
+    //Busca una editorial por su nombre
     @Override
     public EditorialDto findEditorialByName(String name) {
 
@@ -49,6 +51,7 @@ public class EditorialService implements IEditorialService {
         throw new NotFoundException("La editorial solicitada no fue encontrada");
     }
 
+    //Guarda una editorial, y los libros pertenecientes a ella
     @Override
     public RespEditorialDto saveEditorial(EditorialDto editorialDto) {
 
@@ -67,8 +70,10 @@ public class EditorialService implements IEditorialService {
         return response;
     }
 
+    //Actualiza los datos de una editorial, indicada por su Id (no los libros)
+    //Recibe un editorialDto con todos los atributos menos el Set<BookDto>
     @Override
-    public RespEditorialDto updateEditorialById(Long id, EditorialDto editorialDto) {
+    public RespEditorialDto updateEditorialDataById(Long id, EditorialDto editorialDto) {
 
         Optional<Editorial> editorial = editorialRepository.findById(id);
         if(editorial.isPresent()) {
@@ -80,8 +85,7 @@ public class EditorialService implements IEditorialService {
             editorialUpdated.setEmail(emailExist);
 
             editorialUpdated.setId(eExist.getId());
-            //eExist.getBooks().forEach(b -> editorialUpdated.getBooks().add(b));
-            editorialUpdated.getBooks().forEach(b -> b.setEditorial(editorialUpdated));
+            editorialUpdated.setBooks(eExist.getBooks());
 
             editorialRepository.save(editorialUpdated);
 
@@ -95,6 +99,7 @@ public class EditorialService implements IEditorialService {
         throw new NotFoundException("No se puede actualizar. La editorial seleccionada no existe");
     }
 
+    //Agrega un nuevo libro a la editorial indicada por Id
     @Override
     public RespEditorialDto addBookByEditorialId(Long id, BookDto bookDto) {
 
@@ -118,6 +123,7 @@ public class EditorialService implements IEditorialService {
         throw new NotFoundException("El libro no se puede añadir. La editorial seleccionada no existe");
     }
 
+    //Elimina la editorial indicada por Id y todos los libros pertenecientes a ella
     @Override
     public RespMessageDto deleteEditorialById(Long id) {
 
@@ -134,6 +140,7 @@ public class EditorialService implements IEditorialService {
         throw new NotFoundException("No se puede eliminar. La editorial seleccionada no existe");
     }
 
+    //Retorna el stock total de libros que posee una editorial
     @Override
     public RespMessageDto getEditorialStockByEditorialName(String name) {
 
